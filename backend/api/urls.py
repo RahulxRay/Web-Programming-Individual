@@ -16,9 +16,17 @@ Including another URLconf
 """
 from django.urls import path
 from .views import test_api_view
+from . import views
+
 
 
 urlpatterns = [
     # API entry points should be defined here
-    path('test.json', test_api_view, name='api test')
+    path('students/', views.student_list, name='student_list'),
+    path('students/<int:student_id>/', views.student_detail, name='student_detail'),
+    path('test.json', test_api_view, name='api test'),
+    path('courses/', views.course_list, name='course_list'),
+    path('courses/<int:course_id>/', views.course_detail, name='course_detail'),
+    path('enrollments/', views.enrollment_list, name='enrollment_list'),
+    path('enrollments/<int:enrollment_id>/', views.enrollment_detail, name='enrollment_detail'),
 ]
