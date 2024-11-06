@@ -1,12 +1,19 @@
 <template>
-  <div>
+  <div class="container mt-4">
     <h3>Students</h3>
-    <ul>
-      <li v-for="student in students" :key="student.id">
-        {{ student.name }} - {{ student.email }}
-        <button @click="deleteStudent(student.id)" class="btn btn-danger btn-sm ms-2">Delete</button>
-      </li>
-    </ul>
+    <div v-if="students && students.length">
+      <div v-for="student in students" :key="student.id" class="mb-3 p-2 border rounded d-flex justify-content-between align-items-center">
+        <div>
+          <h5>{{ student.name }}</h5>
+          <p>Email: {{ student.email }}</p>
+          <p>Status: {{ student.active ? "Active" : "Inactive" }}</p>
+        </div>
+        <div>
+          <button class="btn btn-danger btn-sm" @click="deleteStudent(student.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <p v-else>No students found</p>
     <button @click="showAddStudentModal = true" class="btn btn-primary mt-3">Add Student</button>
 
     <!-- Modal to add a student -->

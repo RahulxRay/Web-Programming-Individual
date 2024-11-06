@@ -1,6 +1,5 @@
 <template>
   <div class="container pt-3">
-    <div class="h1 text-center border rounded bg-light p-2 mb-3">API Client</div>
 
     <!-- Tabs for Students, Courses, and Enrollments -->
     <ul class="nav nav-tabs">

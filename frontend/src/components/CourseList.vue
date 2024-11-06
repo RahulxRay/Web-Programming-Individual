@@ -1,12 +1,19 @@
 <template>
-  <div>
+  <div class="container mt-4">
     <h3>Courses</h3>
-    <ul>
-      <li v-for="course in courses" :key="course.id">
-        {{ course.title }} - Credits: {{ course.credits }}
-        <button @click="deleteCourse(course.id)" class="btn btn-danger btn-sm ms-2">Delete</button>
-      </li>
-    </ul>
+    <div v-if="courses && courses.length">
+      <div v-for="course in courses" :key="course.id" class="mb-3 p-2 border rounded d-flex justify-content-between align-items-center">
+        <div>
+          <h5>{{ course.title }}</h5>
+          <p>Credits: {{ course.credits }}</p>
+          <p>{{ course.description }}</p>
+        </div>
+        <div>
+          <button class="btn btn-danger btn-sm" @click="deleteCourse(course.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <p v-else>No courses found</p>
     <button @click="showAddCourseModal = true" class="btn btn-primary mt-3">Add Course</button>
 
     <!-- Modal to add a course -->

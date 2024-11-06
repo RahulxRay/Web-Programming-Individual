@@ -1,12 +1,19 @@
 <template>
-    <div>
+    <div class="container mt-4">
       <h3>Enrollments</h3>
-      <ul>
-        <li v-for="enrollment in enrollments" :key="enrollment.id">
-          {{ enrollment.student__name }} enrolled in {{ enrollment.course__title }} on {{ enrollment.enrollment_date }}
-          <button @click="deleteEnrollment(enrollment.id)" class="btn btn-danger btn-sm ms-2">Delete</button>
-        </li>
-      </ul>
+      <div v-if="enrollments && enrollments.length">
+        <div v-for="enrollment in enrollments" :key="enrollment.id" class="mb-3 p-2 border rounded d-flex justify-content-between align-items-center">
+          <div>
+            <h5>{{ enrollment.student__name }} enrolled in {{ enrollment.course__title }}</h5>
+            <p>Enrollment Date: {{ enrollment.enrollment_date }}</p>
+            <p>Grade: {{ enrollment.grade || "N/A" }}</p>
+          </div>
+          <div>
+            <button class="btn btn-danger btn-sm" @click="deleteEnrollment(enrollment.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+      <p v-else>No enrollments found</p>
       <button @click="showAddEnrollmentModal = true" class="btn btn-primary mt-3">Add Enrollment</button>
   
       <!-- Modal to add an enrollment -->
