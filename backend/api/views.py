@@ -21,6 +21,7 @@ def student_list(request):
 
 @csrf_exempt
 def student_detail(request, student_id):
+    """Handles DELETE and PUT for students."""
     try:
         student = Student.objects.get(id=student_id)
     except Student.DoesNotExist:
@@ -29,6 +30,20 @@ def student_detail(request, student_id):
     if request.method == "DELETE":
         student.delete()
         return JsonResponse({"message": "Student deleted"})
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        student.name = data.get("name", student.name)
+        student.email = data.get("email", student.email)
+        student.active = data.get("active", student.active)
+        student.save()
+
+        return JsonResponse({
+            "id": student.id,
+            "name": student.name,
+            "email": student.email,
+            "active": student.active
+        })
+
 
 @csrf_exempt
 def course_list(request):
@@ -47,7 +62,7 @@ def course_list(request):
 
 @csrf_exempt
 def course_detail(request, course_id):
-    """Handles DELETE for courses."""
+    """Handles DELETE and PUT for courses."""
     try:
         course = Course.objects.get(id=course_id)
     except Course.DoesNotExist:
@@ -56,7 +71,20 @@ def course_detail(request, course_id):
     if request.method == "DELETE":
         course.delete()
         return JsonResponse({"message": "Course deleted"})
-    
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        course.title = data.get("title", course.title)
+        course.credits = data.get("credits", course.credits)
+        course.description = data.get("description", course.description)
+        course.save()  # Save the changes to the database
+
+        # Return updated course details
+        return JsonResponse({
+            "id": course.id,
+            "title": course.title,
+            "credits": course.credits,
+            "description": course.description
+        })
 
 @csrf_exempt
 def enrollment_list(request):
@@ -86,7 +114,7 @@ def enrollment_list(request):
 
 @csrf_exempt
 def enrollment_detail(request, enrollment_id):
-    """Handles DELETE for enrollments."""
+    """Handles DELETE and PUT for enrollments."""
     try:
         enrollment = Enrollment.objects.get(id=enrollment_id)
     except Enrollment.DoesNotExist:
@@ -95,3 +123,19 @@ def enrollment_detail(request, enrollment_id):
     if request.method == "DELETE":
         enrollment.delete()
         return JsonResponse({"message": "Enrollment deleted"})
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        enrollment.student_id = data.get("student_id", enrollment.student_id)
+        enrollment.course_id = data.get("course_id", enrollment.course_id)
+        enrollment.enrollment_date = data.get("enrollment_date", enrollment.enrollment_date)
+        enrollment.grade = data.get("grade", enrollment.grade)
+        enrollment.save()  # Save the changes to the database
+
+        # Return updated enrollment details
+        return JsonResponse({
+            "id": enrollment.id,
+            "student__name": enrollment.student.name,
+            "course__title": enrollment.course.title,
+            "enrollment_date": enrollment.enrollment_date,
+            "grade": enrollment.grade
+        })
